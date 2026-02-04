@@ -52,6 +52,16 @@ describe('SidebarContent', () => {
       expect(screen.getByText(input[0].title)).toBeInTheDocument();
       expect(screen.getAllByRole('paragraph')).toHaveLength(input.length);
     });
+
+    it('should update the search input value when typing', async () => {
+      const text = 'AI';
+      makeSut();
+      const searchInput = screen.getByPlaceholderText('Buscar prompts...');
+
+      await user.type(searchInput, text);
+
+      expect(searchInput).toHaveValue(text);
+    });
   });
 
   describe('collapse / expand', () => {
