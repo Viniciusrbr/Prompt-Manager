@@ -1,4 +1,7 @@
-import { SidebarContent } from '@/components/sidebar/sidebar-content';
+import {
+  SidebarContent,
+  SidebarContentProps,
+} from '@/components/sidebar/sidebar-content';
 import { render, screen } from '@/lib/test-utils';
 import userEvent from '@testing-library/user-event';
 
@@ -9,21 +12,46 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
-const makeSut = () => {
-  return render(<SidebarContent />);
+const initialPrompts = [
+  {
+    id: '1',
+    title: 'Prompt 1',
+    content: 'Content 1',
+  },
+];
+
+const makeSut = (
+  { prompts = initialPrompts }: SidebarContentProps = {} as SidebarContentProps
+) => {
+  return render(<SidebarContent prompts={prompts} />);
 };
 
 describe('SidebarContent', () => {
   const user = userEvent.setup();
 
-  it('should render a new prompt button', () => {
-    makeSut();
+  describe('base', () => {
+    it('should render a new prompt button', () => {
+      makeSut();
 
-    expect(screen.getByRole('complementary')).toBeVisible(); // aside element
+      expect(screen.getByRole('complementary')).toBeVisible(); // aside element
 
-    expect(
-      screen.getByRole('button', { name: 'Novo prompt' })
-    ).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: 'Novo prompt' })
+      ).toBeInTheDocument();
+    });
+
+    it('should render the prompt list', () => {
+      const input = [
+        { id: '1', title: 'Example 1', content: 'Content 1' },
+        { id: '2', title: 'Example 2', content: 'Content 2' },
+        { id: '3', title: 'Example 3', content: 'Content 3' },
+      ];
+
+      makeSut({ prompts: input });
+
+      expect(screen.getByText(input[0].title)).toBeInTheDocument();
+      expect(screen.getAllByRole('paragraph')).toHaveLength(input.length);
+    });
   });
 
   describe('collapse / expand', () => {
