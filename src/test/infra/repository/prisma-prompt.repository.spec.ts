@@ -92,6 +92,7 @@ describe('PrismaPromptRepository', () => {
       expect(results).toMatchObject(input);
     });
   });
+
   it('should search with a term and populate OR in the where clause', async () => {
     const now = new Date();
     const input = [
@@ -114,6 +115,28 @@ describe('PrismaPromptRepository', () => {
           { content: { contains: 'title 01', mode: 'insensitive' } },
         ],
       },
+      orderBy: { createdAt: 'desc' },
+    });
+    expect(results).toMatchObject(input);
+  });
+
+  it('should accept an undefined term and not send the "where" parameter', async () => {
+    const now = new Date();
+    const input = [
+      {
+        id: '1',
+        title: 'Title 01',
+        content: 'Content 01',
+        createdAt: now,
+        updatedAt: now,
+      },
+    ];
+    prisma.prompt.findMany.mockResolvedValue(input);
+
+    const results = await repository.searchMany(undefined);
+
+    expect(prisma.prompt.findMany).toHaveBeenCalledWith({
+      where: undefined,
       orderBy: { createdAt: 'desc' },
     });
     expect(results).toMatchObject(input);
