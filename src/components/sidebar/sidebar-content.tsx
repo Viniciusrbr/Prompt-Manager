@@ -1,5 +1,7 @@
 'use client';
 
+import { searchPromptAction } from '@/app/actions/prompt.actions';
+import { PromptSummary } from '@/core/domain/prompts/prompt.entity';
 import {
   Plus as AddIcon,
   ArrowLeftToLine,
@@ -7,12 +9,12 @@ import {
   X as CloseButton,
 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { startTransition, useState } from 'react';
+import { startTransition, useActionState, useRef, useState } from 'react';
 import { Logo } from '../logo';
+import { PromptList } from '../prompts';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { PromptSummary } from '@/core/domain/prompts/prompt.entity';
-import { PromptList } from '../prompts';
+import { Spinner } from '../ui/spinner';
 
 export type SidebarContentProps = {
   prompts: PromptSummary[];
@@ -21,8 +23,22 @@ export type SidebarContentProps = {
 export const SidebarContent = ({ prompts }: SidebarContentProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const formRef = useRef<HTMLFormElement | null>(null);
+
+  const [searchState, searchAction, isPending] = useActionState(
+    searchPromptAction,
+    {
+      success: true,
+      prompts,
+    }
+  );
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [query, setQuery] = useState(searchParams.get('q') ?? '');
+
+  const hasQuery = query.trim().length > 0;
+  const promptList = hasQuery ? (searchState.prompts ?? prompts) : prompts;
 
   const collapsedSidebar = () => setIsCollapsed(true);
   const expandSidebar = () => setIsCollapsed(false);
@@ -36,6 +52,7 @@ export const SidebarContent = ({ prompts }: SidebarContentProps) => {
     startTransition(() => {
       const url = newQuery ? `/?q=${encodeURIComponent(newQuery)}` : '/';
       router.push(url, { scroll: false });
+      formRef.current?.requestSubmit();
     });
   };
 
@@ -50,8 +67,8 @@ export const SidebarContent = ({ prompts }: SidebarContentProps) => {
               onClick={expandSidebar}
               variant="icon"
               className="hidden md:inline-flex p-2 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-accent-500 rounded-lg transition-colors"
-              title="Expandir sidebar"
               aria-label="Expandir sidebar"
+              title="Expandir sidebar"
             >
               <ArrowRightToLine className="w-5 h-5 text-gray-100" />
             </Button>
@@ -99,7 +116,11 @@ export const SidebarContent = ({ prompts }: SidebarContentProps) => {
             </div>
 
             <section className="mb-5">
-              <form action="">
+              <form
+                ref={formRef}
+                action={searchAction}
+                className="relative group w-full"
+              >
                 <Input
                   name="q"
                   type="text"
@@ -108,6 +129,15 @@ export const SidebarContent = ({ prompts }: SidebarContentProps) => {
                   onChange={handleQueryChange}
                   autoFocus
                 />
+                {isPending && (
+                  <div
+                    title="Carregando prompts"
+                    aria-label="Carregando prompts"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 text-gray-300"
+                  >
+                    <Spinner />
+                  </div>
+                )}
               </form>
             </section>
 
@@ -118,11 +148,12 @@ export const SidebarContent = ({ prompts }: SidebarContentProps) => {
               </Button>
             </div>
           </section>
+
           <nav
             className="flex-1 overflow-auto px-6 pb-6"
             aria-label="Lista de prompts"
           >
-            <PromptList prompts={prompts} />
+            <PromptList prompts={promptList} />
           </nav>
         </>
       )}
