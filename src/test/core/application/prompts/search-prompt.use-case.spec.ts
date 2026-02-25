@@ -28,6 +28,8 @@ describe('SearchPromptsUseCase', () => {
   ];
 
   const repository: PromptRepository = {
+    create: jest.fn(),
+    findByTitle: jest.fn(),
     findMany: async () => input,
     searchMany: async (term: string) =>
       input.filter(

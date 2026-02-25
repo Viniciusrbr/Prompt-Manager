@@ -8,7 +8,13 @@ import {
   createPromptSchema,
 } from '@/core/application/prompts/create-prompt.dto';
 import { Button } from '../ui/button';
-import { Form, FormControl, FormField, FormItem } from '../ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '../ui/form';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { useRouter } from 'next/navigation';
@@ -67,6 +73,7 @@ export const PromptForm = () => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -84,6 +91,7 @@ export const PromptForm = () => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
