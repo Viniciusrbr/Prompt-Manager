@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 
-test('Should create a new prompt', async ({ page }) => {
+test('Prompt Creation via UI (Success)', async ({ page }) => {
   const promptTitle = 'New Prompt';
   const promptContent = 'This is a new prompt created for testing purposes.';
 
