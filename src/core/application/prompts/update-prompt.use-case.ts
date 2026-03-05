@@ -1,5 +1,5 @@
 import { PromptRepository } from '@/core/domain/prompts/prompt.repository';
-import { UpdatePromptDTO } from './update-prompt-dto';
+import { UpdatePromptDTO } from './update-prompt.dto';
 
 export class UpdatePromptUseCase {
   constructor(private promptRepository: PromptRepository) {}

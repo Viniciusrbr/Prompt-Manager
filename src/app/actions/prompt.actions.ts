@@ -9,8 +9,8 @@ import { SearchPromptsUseCase } from '@/core/application/prompts/search-prompts.
 import {
   UpdatePromptDTO,
   updatePromptSchema,
-} from '@/core/application/prompts/update-prompt-dto';
-import { UpdatePromptUseCase } from '@/core/application/prompts/update-prompt-use-case';
+} from '@/core/application/prompts/update-prompt.dto';
+import { UpdatePromptUseCase } from '@/core/application/prompts/update-prompt.use-case';
 import { PromptSummary } from '@/core/domain/prompts/prompt.entity';
 import { PrismaPromptRepository } from '@/infra/repository/prisma-prompt.repository';
 import { prisma } from '@/lib/prisma';
