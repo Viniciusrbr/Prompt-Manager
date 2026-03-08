@@ -26,7 +26,7 @@ import {
 import { CopyButton } from '../button-actions';
 import { Prompt } from '@/core/domain/prompts/prompt.entity';
 
-type PromptFormProps = {
+export type PromptFormProps = {
   prompt?: Prompt | null;
 };
 
