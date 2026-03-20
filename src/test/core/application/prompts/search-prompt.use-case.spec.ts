@@ -30,6 +30,7 @@ describe('SearchPromptsUseCase', () => {
   const repository: PromptRepository = {
     create: jest.fn(),
     update: jest.fn(),
+    delete: jest.fn(),
     findById: jest.fn(),
     findByTitle: jest.fn(),
     findMany: async () => input,
