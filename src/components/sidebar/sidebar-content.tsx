@@ -79,6 +79,7 @@ export const SidebarContent = ({ prompts }: SidebarContentProps) => {
         variant="secondary"
         aria-label="Abrir menu"
         title="Abrir menu"
+        aria-expanded={isMobileOpen}
         onClick={openMobileSidebar}
       >
         <Menu className="w-5 h-5 text-gray-100" />
