@@ -14,15 +14,15 @@ Este projeto vai além do código, aplicando conceitos fundamentais de engenhari
 
 ## Stack principal
 
-| Área | Tecnologias |
-|------|-------------|
-| Framework | [Next.js](https://nextjs.org) (App Router), [React](https://react.dev) |
-| Linguagem | [TypeScript](https://www.typescriptlang.org) |
-| Estilo | [Tailwind CSS](https://tailwindcss.com) |
-| Banco de dados | [PostgreSQL](https://www.postgresql.org) via [Prisma](https://www.prisma.io) |
-| Formulários e validação | [React Hook Form](https://react-hook-form.com), [Zod](https://zod.dev) |
-| UI | [Radix UI](https://www.radix-ui.com), ícones [Lucide](https://lucide.dev) |
-| Testes | [Jest](https://jestjs.io), [Testing Library](https://testing-library.com), [Playwright](https://playwright.dev) |
+| Área                    | Tecnologias                                                                                                     |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Framework               | [Next.js](https://nextjs.org) (App Router), [React](https://react.dev)                                          |
+| Linguagem               | [TypeScript](https://www.typescriptlang.org)                                                                    |
+| Estilo                  | [Tailwind CSS](https://tailwindcss.com)                                                                         |
+| Banco de dados          | [PostgreSQL](https://www.postgresql.org) via [Prisma](https://www.prisma.io)                                    |
+| Formulários e validação | [React Hook Form](https://react-hook-form.com), [Zod](https://zod.dev)                                          |
+| UI                      | [Radix UI](https://www.radix-ui.com), ícones [Lucide](https://lucide.dev)                                       |
+| Testes                  | [Jest](https://jestjs.io), [Testing Library](https://testing-library.com), [Playwright](https://playwright.dev) |
 
 ## Estrutura do código (visão geral)
 
@@ -72,18 +72,16 @@ Este projeto vai além do código, aplicando conceitos fundamentais de engenhari
 
 ## Scripts úteis
 
-| Script | Descrição |
-|--------|-----------|
-| `npm run dev` | Servidor de desenvolvimento Next.js |
-| `npm run build` / `npm run start` | Build e servidor de produção |
-| `npm run lint` | ESLint |
-| `npm run typecheck` | Verificação de tipos TypeScript |
-| `npm run format` | Formatação com Prettier |
-| `npm test` | Testes (Jest) |
-| `npm run test:watch` | Jest em modo watch |
-| `npm run test:coverage` | Cobertura de testes |
-| `npm run test:e2e` | Testes E2E (Playwright) |
-| `npm run test:e2e:ui` | Playwright com UI |
-| `npm run db:studio` | Prisma Studio (inspeção do banco) |
-
-
+| Script                            | Descrição                           |
+| --------------------------------- | ----------------------------------- |
+| `npm run dev`                     | Servidor de desenvolvimento Next.js |
+| `npm run build` / `npm run start` | Build e servidor de produção        |
+| `npm run lint`                    | ESLint                              |
+| `npm run typecheck`               | Verificação de tipos TypeScript     |
+| `npm run format`                  | Formatação com Prettier             |
+| `npm test`                        | Testes (Jest)                       |
+| `npm run test:watch`              | Jest em modo watch                  |
+| `npm run test:coverage`           | Cobertura de testes                 |
+| `npm run test:e2e`                | Testes E2E (Playwright)             |
+| `npm run test:e2e:ui`             | Playwright com UI                   |
+| `npm run db:studio`               | Prisma Studio (inspeção do banco)   |
