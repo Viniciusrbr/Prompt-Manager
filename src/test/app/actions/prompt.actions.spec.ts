@@ -120,7 +120,7 @@ describe('Server Actions: Prompts', () => {
       const result = await updatePromptAction(data);
 
       expect(result?.success).toBe(true);
-      expect(result?.message).toBe('Prompt atualizado com sucesso!');
+      expect(result?.message).toBe('Prompt atualizado com sucesso');
       expect(revalidatePath).toHaveBeenCalledTimes(1);
     });
     it('should return a validation error when fields are missing', async () => {
