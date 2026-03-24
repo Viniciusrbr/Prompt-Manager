@@ -1,10 +1,13 @@
 'use server';
 
+import { prisma } from '@/lib/prisma';
+
 import {
   CreatePromptDTO,
   createPromptSchema,
 } from '@/core/application/prompts/create-prompt.dto';
 import { CreatePromptUseCase } from '@/core/application/prompts/create-prompt.use-case';
+import { DeletePromptUseCase } from '@/core/application/prompts/delete-prompt.use-case';
 import { SearchPromptsUseCase } from '@/core/application/prompts/search-prompts.use-case';
 import {
   UpdatePromptDTO,
@@ -13,10 +16,8 @@ import {
 import { UpdatePromptUseCase } from '@/core/application/prompts/update-prompt.use-case';
 import { PromptSummary } from '@/core/domain/prompts/prompt.entity';
 import { PrismaPromptRepository } from '@/infra/repository/prisma-prompt.repository';
-import { DeletePromptUseCase } from '@/core/application/prompts/delete-prompt.use-case';
-import { prisma } from '@/lib/prisma';
-import z from 'zod';
 import { revalidatePath } from 'next/cache';
+import z from 'zod';
 
 type SearchFormState = {
   success: boolean;
@@ -90,9 +91,10 @@ export async function updatePromptAction(
     const useCase = new UpdatePromptUseCase(repository);
     await useCase.execute(validated.data);
     revalidatePath('/', 'layout');
+
     return {
       success: true,
-      message: 'Prompt atualizado com sucesso!',
+      message: 'Prompt atualizado com sucesso',
     };
   } catch (error) {
     const _error = error as Error;
@@ -106,40 +108,6 @@ export async function updatePromptAction(
     return {
       success: false,
       message: 'Falha ao atualizar o prompt',
-    };
-  }
-
-  return {
-    success: true,
-    message: 'Prompt atualizado com sucesso!',
-  };
-}
-
-export async function searchPromptAction(
-  _prev: SearchFormState,
-  formData: FormData
-): Promise<SearchFormState> {
-  const term = String(formData.get('q') ?? '').trim();
-  const repository = new PrismaPromptRepository(prisma);
-  const useCase = new SearchPromptsUseCase(repository);
-
-  try {
-    const results = await useCase.execute(term);
-
-    const summaries = results.map(({ id, title, content }) => ({
-      id,
-      title,
-      content,
-    }));
-
-    return {
-      success: true,
-      prompts: summaries,
-    };
-  } catch {
-    return {
-      success: false,
-      message: 'Falha ao buscar prompts.',
     };
   }
 }
@@ -171,6 +139,35 @@ export async function deletePromptAction(id: string): Promise<FormState> {
     return {
       success: false,
       message: 'Falha ao remover o prompt',
+    };
+  }
+}
+
+export async function searchPromptAction(
+  _prev: SearchFormState,
+  formData: FormData
+): Promise<SearchFormState> {
+  const term = String(formData.get('q') ?? '').trim();
+  const repository = new PrismaPromptRepository(prisma);
+  const useCase = new SearchPromptsUseCase(repository);
+
+  try {
+    const results = await useCase.execute(term);
+
+    const summaries = results.map(({ id, title, content }) => ({
+      id,
+      title,
+      content,
+    }));
+
+    return {
+      success: true,
+      prompts: summaries,
+    };
+  } catch {
+    return {
+      success: false,
+      message: 'Falha ao buscar prompts.',
     };
   }
 }
